@@ -10,7 +10,7 @@ This research project addresses the question "Can accident severity be predicted
 2. [Data](#data)  
 3. [Preprocessing](#preprocessing)  
 4. [Clustering Analysis](#clustering-analysis)  
-5. [EDA and Feature Analysis](#eda)  
+5. [EDA and Feature Analysis](#eda-and-feature-analysis)  
 6. [Model Training](#model-training)  
 7. [Running Code](#running-code)
 8. [Intended Workflow](#intended-workflow)
@@ -71,7 +71,7 @@ Each trains and evaluates models (Decision Tree, Random Forest, K-NN) on the res
 
 All .py scripts can be run directly. Jupyter notebooks should be executed from start to finish.
 
-## Recommended Workflow
+## Intended Workflow
 
 The recommended workflow is to:
 
