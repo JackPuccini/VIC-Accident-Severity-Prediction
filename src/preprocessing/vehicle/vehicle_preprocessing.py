@@ -3,11 +3,11 @@ from dotenv import dotenv_values
 
 config = dotenv_values(".env")
 
-# 1) Load
-veh = pd.read_csv(f"{config['RAW_DATA_DIR']}/vehicle.csv")
+# Load vehicle dataset
+veh_df = pd.read_csv(f"{config['RAW_DATA_DIR']}/vehicle.csv")
 
-# 2) Drop unwanted cols
-veh.drop(
+# Drop unwanted columns
+veh_df.drop(
     columns=[
         "VEHICLE_ID",
         "LEVEL_OF_DAMAGE",
@@ -21,28 +21,28 @@ veh.drop(
         "REG_STATE",
         "VEHICLE_POWER",
         "VEHICLE_WEIGHT",
-        "VEHICLE_YEAR_MANUF",  # Can keep this later when process properly
+        "VEHICLE_YEAR_MANUF",
     ],
     errors="ignore",
     inplace=True,
 )
 
-# 3) Toss the  'G' = “unknown what is being towed” rows:
-veh = veh[veh["TRAILER_TYPE"] != "G"]
+# Drop when value is 'G' = "unknown what is being towed" rows:
+veh_df = veh_df[veh_df["TRAILER_TYPE"] != "G"]
 
-# 4) Single boolean flag: H means “no trailer”, everything else (A–L, I, J, K, etc.) → tow
-veh["HAS_TRAILER"] = (veh["TRAILER_TYPE"] != "H").astype(int)
+# Boolean flag for trailer usage. H means "no trailer", everything else counts as some form of trailer
+veh_df["HAS_TRAILER"] = (veh_df["TRAILER_TYPE"] != "H").astype(int)
 
-# 5) Vehicle count for aggregation
-veh["VEHICLE_COUNT"] = 1
+# Vehicle count for aggregation
+veh_df["VEHICLE_COUNT"] = 1
 
-# 6) Per-accident aggregation:
-#    - HAS_TRAILER → max (0 if none, 1 if any)
-#    - VEHICLE_COUNT → sum
-veh_sum = veh.groupby("ACCIDENT_NO", as_index=False).agg(
-    ANY_TRAILER=("HAS_TRAILER", "max"),
-    NUM_VEHICLES=("VEHICLE_COUNT", "sum"),
+# Per-accident aggregation
+veh_sum = veh_df.groupby("ACCIDENT_NO", as_index=False).agg(
+    ANY_TRAILER=(
+        "HAS_TRAILER",
+        "max",
+    ),  # Set to '1'/True if any vehicle involved has a trailer
+    NUM_VEHICLES=("VEHICLE_COUNT", "sum"),  # Count the number of vehicles involved
 )
 
-# 7) Save
 veh_sum.to_csv(f"{config['PROCESSED_DATA_DIR']}/preprocessed_vehicle.csv", index=False)
