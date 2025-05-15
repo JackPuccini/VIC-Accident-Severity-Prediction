@@ -32,14 +32,8 @@ df.to_csv(f"{config['PROCESSED_DATA_DIR']}/integrated_data.csv", index=False)
 df = pd.read_csv(f"{config['PROCESSED_DATA_DIR']}/integrated_data.csv")
 
 # 3) Split into train / test on the new target
-train_df, test_df = train_test_split(
-    df, test_size=0.2, stratify=df["HIGH_SEVERITY"], random_state=42
-)
+train_df, test_df = train_test_split(df, test_size=0.2, stratify=df["HIGH_SEVERITY"])
 
 # 4) Save
-train_df.to_csv(
-    f"{config['TRAIN_TEST_DATA_DIR']}/train_accident_features.csv", index=False
-)
-test_df.to_csv(
-    f"{config['TRAIN_TEST_DATA_DIR']}/test_accident_features.csv", index=False
-)
+train_df.to_csv(f"{config['TRAIN_TEST_DATA_DIR']}/train.csv", index=False)
+test_df.to_csv(f"{config['TRAIN_TEST_DATA_DIR']}/test.csv", index=False)
