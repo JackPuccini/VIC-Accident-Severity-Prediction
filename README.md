@@ -33,7 +33,7 @@ All datasets (raw and processed) are present in the data directory:
 ┗ 📂train_test
 ```
 
-## Proprocessing
+## Preprocessing
 Scripts under src/preprocessing preprocess the raw datasets, ultimately generating the `integrated_data.csv` file.
 ```
 📦preprocessing
