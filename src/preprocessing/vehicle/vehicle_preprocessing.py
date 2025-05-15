@@ -1,7 +1,10 @@
 import pandas as pd
+from dotenv import dotenv_values
+
+config = dotenv_values(".env")
 
 # 1) Load
-veh = pd.read_csv("datasets/vehicle.csv")
+veh = pd.read_csv(f"{config['RAW_DATA_DIR']}/vehicle.csv")
 
 # 2) Drop unwanted cols
 veh.drop(
@@ -42,5 +45,4 @@ veh_sum = veh.groupby("ACCIDENT_NO", as_index=False).agg(
 )
 
 # 7) Save
-veh_sum.to_csv("modified_datasets/preprocessed_vehicle_core.csv", index=False)
-print("→ preprocessed_vehicle_core.csv:", veh_sum.shape)
+veh_sum.to_csv(f"{config['PROCESSED_DATA_DIR']}/preprocessed_vehicle.csv", index=False)

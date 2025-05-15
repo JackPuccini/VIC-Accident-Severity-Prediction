@@ -26,7 +26,7 @@ road_df = pd.concat([road_df, surface_ohe], axis=1)
 
 # 5) Save back out
 road_df.to_csv(
-    f"{config['PROCESSED_DATA_DIR']}/road_surface_preprocessed.csv", index=False
+    f"{config['PROCESSED_DATA_DIR']}/preprocessed_road_surface.csv", index=False
 )
 
 # --- Atmospheric Condition ---
@@ -49,5 +49,5 @@ weather_ohe = pd.get_dummies(
 
 atm_df = pd.concat([atm_df, weather_ohe], axis=1)
 atm_df.to_csv(
-    f"{config['PROCESSED_DATA_DIR']}/atmospheric_core_preprocessed.csv", index=False
+    f"{config['PROCESSED_DATA_DIR']}/preprocessed_atmospheric.csv", index=False
 )
